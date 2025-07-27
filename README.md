@@ -27,8 +27,8 @@ Make sure you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone <your-repository-url>
-   cd tic-tac-teo
+   git clone https://github.com/Eslamsaeed880/Tic-Tac-Teo.git
+   cd Tic-Tac-Teo
    ```
 
 2. Install dependencies:
