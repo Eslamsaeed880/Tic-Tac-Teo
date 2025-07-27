@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import Log from './components/Log.jsx'
-import Player from './components/Player.jsx'
-import GameBoard from './components/GameBoard.jsx'
+import Log from './components/Log.jsx';
+import Player from './components/Player.jsx';
+import GameBoard from './components/GameBoard.jsx';
+import GameOver from './components/GameOver.jsx';
 import { WINNING_COMBNATIONS } from './components/winning-combinations.js';
 
 const initialGameBoard = [
@@ -28,7 +29,7 @@ function App() {
 
   const currentPlayer = derivedActivePlayer(gameTurns);
 
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map(arr => [...arr])];
 
   for (const turn of gameTurns) {
       const {square, player} = turn;
@@ -51,6 +52,8 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurns.length === 9 && !winner;
+
   function handlePlayerChange(rowIndex, colIndex) {
     // setCurrentPlayer(
     //   (curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X'
@@ -70,6 +73,10 @@ function App() {
     })
   }
 
+  function handleRematch() {
+    setGameTurns([]);
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -77,7 +84,7 @@ function App() {
           <Player symbol='X' name='Player 1' isActive={currentPlayer === 'X'} />
           <Player symbol='O' name='Player 2' isActive={currentPlayer === 'O'} />
         </ol>
-        {winner && <p>You won, {winner}!</p>}
+        {(hasDraw || winner) && <GameOver winner={winner} onRestart={handleRematch} />}
         <GameBoard 
         onSelectSquare={handlePlayerChange} 
         board={gameBoard} />
